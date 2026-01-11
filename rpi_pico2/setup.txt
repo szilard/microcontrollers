@@ -1,0 +1,15 @@
+curl -O https://micropython.org/download/RPI_PICO2/RPI_PICO2-latest.uf2
+curl -O https://micropython.org/download/RPI_PICO2_W/RPI_PICO2_W-latest.uf2
+
+cp RPI_PICO2-latest.uf2 /Volumes/RP2350/
+
+mpremote connect /dev/cu.usbmodem14301 repl
+
+mpremote connect auto fs cp led.py :main.py
+mpremote reset
+
+screen /dev/ttyUSB0 115200
+
+
+## same code to blink LED from esp32 works
+## need to rewire pin connections to match GPIO pins (16,18,19) and GND

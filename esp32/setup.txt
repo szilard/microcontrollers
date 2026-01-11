@@ -1,0 +1,22 @@
+ls /dev/ttyUSB* /dev/ttyACM*   # Linux   -> /dev/ttyUSB0
+ls /dev/cu.*    # Mac   -> /dev/cu.usbserial-0001
+
+pip install esptool mpremote
+
+esptool --chip esp32 --port /dev/ttyUSB0 flash-id
+esptool --chip esp32 --port /dev/ttyUSB0 erase-flash
+wget https://micropython.org/resources/firmware/ESP32_GENERIC-20251209-v1.27.0.bin
+esptool --chip esp32 --port /dev/ttyUSB0 --baud 460800 write-flash -z 0x1000 ESP32_*.bin
+
+screen /dev/ttyUSB0 115200
+
+
+from machine import Pin
+led = Pin(2, Pin.OUT)  # GPIO2 is common for onboard LED
+led.on()
+led.off()
+
+
+mpremote connect auto fs cp test.py :main.py
+
+mpremote reset
